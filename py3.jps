@@ -55,9 +55,10 @@ actions:
  uninstallpy:
   - cmd [${targetNodes.nodeGroup}]:
      - yum remove -q -y python3
+     - jhome=`eval echo ~jelastic`; chattr -a "${jhome}/.bash_profile"; sed -i -n '/\.local\/bin/!p' "${jhome}/.bash_profile"; chattr +a "${jhome}/.bash_profile"
     user: root
 
- checkwk:
+ checkpy:
   - cmd [${targetNodes.nodeGroup}]:
      - python3 -V
     user: root
