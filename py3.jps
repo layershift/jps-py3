@@ -1,0 +1,81 @@
+type: update
+name: 'py3'
+id: 'py3'
+homepage: https://github.com/layershift/jps-py3
+baseUrl: https://raw.githubusercontent.com/layershift/jps-py3/main
+logo: /images/py3.png?_r=${fn.random}
+
+categories:
+ - apps/others
+
+description:
+ text: /messages/description.md
+ short: Python3
+
+targetNodes:
+ nodeGroup:
+  - cp
+  - sqldb
+  - nosqldb
+  - bl
+  - storage
+
+buttons:
+ - caption: Check version
+   loadingText: Checking..
+   action: checkpy
+
+onAfterRedeployContainer:
+ installpy
+
+onAfterCloneNodes:
+ installpy
+
+onInstall:
+ installpy
+
+onUninstall:
+ uninstallpy
+
+
+
+actions:
+ installpy:
+  - cmd [${targetNodes.nodeGroup}]:
+     - yum install -q -y epel-releas
+     - yum install -q -y python3
+     - jhome=`eval echo ~jelastic`; echo PATH=$jhome/.local/bin:\$PATH >> "${jhome}/.bash_profile"
+    sayYes: true
+    user: root
+  - if (response.out.indexOf("Issue") !== -1):
+     message: ${response.out}
+     script: |
+      return {'result': 2308, 'message': message.replace(/\n/g, '  \n')}
+
+ uninstallpy:
+  - cmd [${targetNodes.nodeGroup}]:
+     - yum remove -q -y python3
+    user: root
+
+ checkwk:
+  - cmd [${targetNodes.nodeGroup}]:
+     - python3 -V
+    user: root
+  - message: ${response.out}
+    script: |
+     return {'result': 2307, 'message': message.replace(/\n/g, '  \n')}
+
+responses:
+ 2307:
+  type: info
+  message: Custom Success message!
+
+ 2308:
+  type: success
+  message: Custom Success message!
+
+ 2309:
+  type: error
+  message: Custom Success message!
+
+success: /messages/success.md
