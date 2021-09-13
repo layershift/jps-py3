@@ -2,7 +2,7 @@ type: update
 name: 'py3'
 id: 'py3'
 homepage: https://github.com/layershift/jps-py3
-baseUrl: https://raw.githubusercontent.com/layershift/jps-py3/development
+baseUrl: https://raw.githubusercontent.com/layershift/jps-py3/main
 logo: /images/py3.png?_r=${fn.random}
 
 categories:
