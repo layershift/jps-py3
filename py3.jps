@@ -45,6 +45,7 @@ actions:
      - yum install -q -y epel-releas
      - yum install -q -y python3
      - jhome=`eval echo ~jelastic`; echo PATH=$jhome/.local/bin:\$PATH >> "${jhome}/.bash_profile"
+     - jhome=`eval echo ~jelastic`; echo "echo \"When installing PyPI packages use \\\"pip3 install --user <package>\\\"\"" >> "${jhome}/.bash_profile"
     sayYes: true
     user: root
   - if (response.out.indexOf("Issue") !== -1):
